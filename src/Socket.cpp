@@ -6,10 +6,10 @@
  */
 #include <cstring>
 #include <iostream>
-#include <sys/socket.h>	
 #include <netdb.h>
 #include <unistd.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 
 #include "Socket.h"
 
@@ -17,7 +17,8 @@ namespace tcpserver {
 
 Socket::Socket(const std::string& host, int port):
 host_(host),
-port_(port) {
+port_(port),
+sockfd_(-1) {
 }
 
 Socket::~Socket() {
@@ -40,18 +41,23 @@ void Socket::open() {
 	for (addr = addr0; addr != NULL; addr = addr->ai_next) {
 		if ((sockfd_ = socket(addr->ai_family, addr->ai_socktype, addr->ai_protocol)) == -1)
 			continue;
+		if (connect(sockfd_, addr->ai_addr, addr->ai_addrlen) == -1 ) {
+			close();
+			continue;
+		}
 		break;
 	}
-	freeaddrinfo(addr0);
 	if (sockfd_ == -1) std::cout << "error creating new socket!" << std::endl;
 	else {
 		char peer_host[INET_ADDRSTRLEN];
 		inet_ntop(addr->ai_family, get_in_addr(addr->ai_addr), peer_host, sizeof(peer_host));
+		std::cout << "Connected to: " << peer_host << std::endl;
 	}
+	freeaddrinfo(addr0);
 }
 
 void Socket::close() {
-	close(sockfd_);
+	shutdown(sockfd_, SHUT_RDWR);
 	sockfd_ = -1;
 }
 

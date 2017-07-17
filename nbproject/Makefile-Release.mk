@@ -35,7 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/src/Socket.o
+	${OBJECTDIR}/src/Socket.o \
+	${OBJECTDIR}/src/main.o
 
 # Test Directory
 TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
@@ -46,7 +47,7 @@ TESTFILES= \
 
 # Test Object Files
 TESTOBJECTFILES= \
-	${TESTDIR}/inc/tests/newsimpletest.o
+	${TESTDIR}/inc/tests/client.o
 
 # C Compiler Flags
 CFLAGS=
@@ -77,6 +78,11 @@ ${OBJECTDIR}/src/Socket.o: src/Socket.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -Iinc -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Socket.o src/Socket.cpp
 
+${OBJECTDIR}/src/main.o: src/main.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -Iinc -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/main.o src/main.cpp
+
 # Subprojects
 .build-subprojects:
 
@@ -84,15 +90,15 @@ ${OBJECTDIR}/src/Socket.o: src/Socket.cpp
 .build-tests-conf: .build-tests-subprojects .build-conf ${TESTFILES}
 .build-tests-subprojects:
 
-${TESTDIR}/TestFiles/f1: ${TESTDIR}/inc/tests/newsimpletest.o ${OBJECTFILES:%.o=%_nomain.o}
+${TESTDIR}/TestFiles/f1: ${TESTDIR}/inc/tests/client.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS}   
 
 
-${TESTDIR}/inc/tests/newsimpletest.o: inc/tests/newsimpletest.cpp 
+${TESTDIR}/inc/tests/client.o: inc/tests/client.cpp 
 	${MKDIR} -p ${TESTDIR}/inc/tests
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Iinc -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/inc/tests/newsimpletest.o inc/tests/newsimpletest.cpp
+	$(COMPILE.cc) -O2 -Iinc -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/inc/tests/client.o inc/tests/client.cpp
 
 
 ${OBJECTDIR}/src/Socket_nomain.o: ${OBJECTDIR}/src/Socket.o src/Socket.cpp 
@@ -106,6 +112,19 @@ ${OBJECTDIR}/src/Socket_nomain.o: ${OBJECTDIR}/src/Socket.o src/Socket.cpp
 	    $(COMPILE.cc) -O2 -Iinc -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Socket_nomain.o src/Socket.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/src/Socket.o ${OBJECTDIR}/src/Socket_nomain.o;\
+	fi
+
+${OBJECTDIR}/src/main_nomain.o: ${OBJECTDIR}/src/main.o src/main.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/main.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -Iinc -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/main_nomain.o src/main.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/src/main.o ${OBJECTDIR}/src/main_nomain.o;\
 	fi
 
 # Run Test Targets

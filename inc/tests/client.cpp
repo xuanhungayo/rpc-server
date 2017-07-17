@@ -22,9 +22,9 @@
 using tcpserver::Socket;
 
 void ClientTest() {
-	Socket socket("localhost", 8585);
+	Socket socket("localhost", 3490);
 	socket.open();
-	socket.read()
+	socket.close();
 }
 
 int main(int argc, char** argv) {

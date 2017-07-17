@@ -8,6 +8,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
+#include <sys/socket.h>	
 #include <string>
 
 namespace tcpserver {
@@ -26,11 +27,12 @@ public:
 	void open();
 	// Close the socket
 	void close();
+	// Check if there is an open socket
 	bool isOpen();
 protected:
 	std::string host_;
 	int port_;
-	int sockfd_ = -1;
+	int sockfd_;
 	
 	// get sockaddr, IPv4 or IPv6
 	void* get_in_addr(sockaddr* sa);
