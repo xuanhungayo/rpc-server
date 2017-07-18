@@ -1,30 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   main.cpp
- * Author: xuanhungayo
+ * Author: xuanhungcao
  *
  * Created on July 17, 2017, 9:41 PM
  */
 
 #include <iostream>
 
+#include "ServerSocket.h"
 #include "Socket.h"
 
+using tcpserver::ServerSocket;
 using tcpserver::Socket;
 
 int main(int argc, char** argv) {
-	Socket socket("localhost", 3490);
-	socket.open();
-	char s[13];
-	socket.read(s, 13);
-	std::cout << s << std::endl;
-	
-	socket.close();
+	ServerSocket ssocket(3000);
+	ssocket.listen();
+	while (1) {
+		std::shared_ptr<Socket> transporter = ssocket.accept();
+		char welcome[] = "Hi there";
+		transporter->write(welcome, sizeof(welcome));
+		
+		char request[1024];
+		transporter->read(request, 1024);
+		std::cout << "Request from client: " << request	 << std::endl; 
+	}
 	return 0;
 }
 

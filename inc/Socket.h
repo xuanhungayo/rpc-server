@@ -9,6 +9,7 @@
 #define SOCKET_H
 
 #include <sys/socket.h>	
+#include <netdb.h>
 #include <string>
 
 namespace tcpserver {
@@ -17,12 +18,13 @@ class Socket {
 public:
 	// Constructor
 	Socket(const std::string& host, int port);
+	Socket(const int socket);
 	virtual ~Socket();
 	
 	// Read from the socket
-	virtual uint32_t read(void* buff, uint32_t len);
+	uint32_t read(char* buff, uint32_t len);
 	// Write to the socket
-	virtual void write(const void* buff, uint32_t len);
+	uint32_t write(const char* buff, uint32_t len);
 	// Open a new socket
 	void open();
 	// Close the socket
@@ -34,7 +36,7 @@ protected:
 	int port_;
 	int sockfd_;
 	
-	// get sockaddr, IPv4 or IPv6
+	// Get sockaddr, IPv4 or IPv6
 	void* get_in_addr(sockaddr* sa);
 };
 

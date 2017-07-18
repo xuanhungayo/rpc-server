@@ -5,31 +5,32 @@
  */
 
 /* 
- * File:   newsimpletest.cpp
+ * File:   client.cpp
  * Author: cpu10170-local
  *
- * Created on July 17, 2017, 6:22 PM
+ * Created on July 18, 2017, 1:49 PM
  */
 
 #include <stdlib.h>
 #include <iostream>
 
 #include "Socket.h"
+
 /*
  * Simple C++ Test Suite
  */
 
 using tcpserver::Socket;
 
-void ClientTest() {
-	Socket socket("localhost", 3490);
-	socket.open();
-	socket.close();
-}
-
 int main(int argc, char** argv) {
-	ClientTest();
-
-	return (EXIT_SUCCESS);
+	Socket client("localhost", 3000);
+	client.open();
+	for(int i = 1; i <= 10000000; i++);
+	char response[1024];
+	client.read(response, 1024);
+	std::cout << "Server response: " << response << std::endl; 
+	
+	char request[] = "Money";
+	client.write(request, sizeof(request));
 }
 

@@ -6,7 +6,6 @@
  */
 #include <cstring>
 #include <iostream>
-#include <netdb.h>
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -19,6 +18,10 @@ Socket::Socket(const std::string& host, int port):
 host_(host),
 port_(port),
 sockfd_(-1) {
+}
+
+Socket::Socket(const int socket):
+sockfd_(socket) {
 }
 
 Socket::~Socket() {
@@ -34,7 +37,7 @@ void Socket::open() {
 	hints.ai_socktype = SOCK_STREAM;
 	
 	if ((err = getaddrinfo(host_.c_str(), std::to_string(port_).c_str(), &hints, &addr0)) != 0) {
-		std::cout << "getaddrinfo: " << gai_strerror(err) << std::endl;
+		std::cout << "Getaddrinfo: " << gai_strerror(err) << std::endl;
 		return;
 	}
 	
@@ -47,17 +50,18 @@ void Socket::open() {
 		}
 		break;
 	}
-	if (sockfd_ == -1) std::cout << "error creating new socket!" << std::endl;
-	else {
-		char peer_host[INET_ADDRSTRLEN];
-		inet_ntop(addr->ai_family, get_in_addr(addr->ai_addr), peer_host, sizeof(peer_host));
-		std::cout << "Connected to: " << peer_host << std::endl;
+	if (sockfd_ == -1) {
+		std::cout << "Error creating new socket!" << std::endl;
+		return;
 	}
-	freeaddrinfo(addr0);
+	char host[INET_ADDRSTRLEN];
+	inet_ntop(addr->ai_family, get_in_addr((struct sockaddr *)addr->ai_addr),
+            host, sizeof(host));
+	std::cout << "Connected to " << host << std::endl;
 }
 
 void Socket::close() {
-	shutdown(sockfd_, SHUT_RDWR);
+	::close(sockfd_);
 	sockfd_ = -1;
 }
 
@@ -65,12 +69,21 @@ bool Socket::isOpen() {
 	return sockfd_ != -1;
 }
 
-uint32_t Socket::read(void* buff, uint32_t len) {
+uint32_t Socket::read(char* buff, uint32_t len) {
 	return recv(sockfd_, buff, len, 0);
 }
 
-void Socket::write(const void* buff, uint32_t len) {
-	send(sockfd_, buff, len, 0);
+uint32_t Socket::write(const char* buff, uint32_t len) {
+	int total = 0;
+	int byteleft = len;
+	while (total < len) {
+		int byte_sent = send(sockfd_, buff + total, byteleft, 0);
+		if (byte_sent <= 0) 
+			break;
+		total += byte_sent;
+		byteleft -= byte_sent;
+	}
+	return total;
 }
 
 void* Socket::get_in_addr(sockaddr* sa) {

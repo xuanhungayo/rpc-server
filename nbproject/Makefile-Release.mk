@@ -35,6 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/src/Protocol.o \
+	${OBJECTDIR}/src/ServerSocket.o \
 	${OBJECTDIR}/src/Socket.o \
 	${OBJECTDIR}/src/main.o
 
@@ -47,7 +49,7 @@ TESTFILES= \
 
 # Test Object Files
 TESTOBJECTFILES= \
-	${TESTDIR}/inc/tests/client.o
+	${TESTDIR}/tests/client.o
 
 # C Compiler Flags
 CFLAGS=
@@ -73,6 +75,16 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tcp-server: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tcp-server ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/src/Protocol.o: src/Protocol.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -Iinc -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Protocol.o src/Protocol.cpp
+
+${OBJECTDIR}/src/ServerSocket.o: src/ServerSocket.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -Iinc -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/ServerSocket.o src/ServerSocket.cpp
+
 ${OBJECTDIR}/src/Socket.o: src/Socket.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
@@ -90,16 +102,42 @@ ${OBJECTDIR}/src/main.o: src/main.cpp
 .build-tests-conf: .build-tests-subprojects .build-conf ${TESTFILES}
 .build-tests-subprojects:
 
-${TESTDIR}/TestFiles/f1: ${TESTDIR}/inc/tests/client.o ${OBJECTFILES:%.o=%_nomain.o}
+${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/client.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS}   
 
 
-${TESTDIR}/inc/tests/client.o: inc/tests/client.cpp 
-	${MKDIR} -p ${TESTDIR}/inc/tests
+${TESTDIR}/tests/client.o: tests/client.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Iinc -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/inc/tests/client.o inc/tests/client.cpp
+	$(COMPILE.cc) -O2 -Iinc -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/client.o tests/client.cpp
 
+
+${OBJECTDIR}/src/Protocol_nomain.o: ${OBJECTDIR}/src/Protocol.o src/Protocol.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/Protocol.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -Iinc -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Protocol_nomain.o src/Protocol.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/src/Protocol.o ${OBJECTDIR}/src/Protocol_nomain.o;\
+	fi
+
+${OBJECTDIR}/src/ServerSocket_nomain.o: ${OBJECTDIR}/src/ServerSocket.o src/ServerSocket.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/ServerSocket.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -Iinc -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/ServerSocket_nomain.o src/ServerSocket.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/src/ServerSocket.o ${OBJECTDIR}/src/ServerSocket_nomain.o;\
+	fi
 
 ${OBJECTDIR}/src/Socket_nomain.o: ${OBJECTDIR}/src/Socket.o src/Socket.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
