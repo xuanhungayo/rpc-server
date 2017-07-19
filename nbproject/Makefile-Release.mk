@@ -41,6 +41,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/ServerSocket.o \
 	${OBJECTDIR}/src/SimpleServer.o \
 	${OBJECTDIR}/src/Socket.o \
+	${OBJECTDIR}/src/ThreadedServer.o \
 	${OBJECTDIR}/src/main.o
 
 # Test Directory
@@ -107,6 +108,11 @@ ${OBJECTDIR}/src/Socket.o: src/Socket.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -Iinc -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Socket.o src/Socket.cpp
+
+${OBJECTDIR}/src/ThreadedServer.o: src/ThreadedServer.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -Iinc -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/ThreadedServer.o src/ThreadedServer.cpp
 
 ${OBJECTDIR}/src/main.o: src/main.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -207,6 +213,19 @@ ${OBJECTDIR}/src/Socket_nomain.o: ${OBJECTDIR}/src/Socket.o src/Socket.cpp
 	    $(COMPILE.cc) -O2 -Iinc -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Socket_nomain.o src/Socket.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/src/Socket.o ${OBJECTDIR}/src/Socket_nomain.o;\
+	fi
+
+${OBJECTDIR}/src/ThreadedServer_nomain.o: ${OBJECTDIR}/src/ThreadedServer.o src/ThreadedServer.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/ThreadedServer.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -Iinc -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/ThreadedServer_nomain.o src/ThreadedServer.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/src/ThreadedServer.o ${OBJECTDIR}/src/ThreadedServer_nomain.o;\
 	fi
 
 ${OBJECTDIR}/src/main_nomain.o: ${OBJECTDIR}/src/main.o src/main.cpp 

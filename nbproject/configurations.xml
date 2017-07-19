@@ -8,6 +8,7 @@
       <itemPath>inc/ServerSocket.h</itemPath>
       <itemPath>inc/SimpleServer.h</itemPath>
       <itemPath>inc/Socket.h</itemPath>
+      <itemPath>inc/ThreadedServer.h</itemPath>
       <itemPath>inc/Types.h</itemPath>
       <itemPath>inc/config.h</itemPath>
     </logicalFolder>
@@ -18,6 +19,7 @@
       <itemPath>src/ServerSocket.cpp</itemPath>
       <itemPath>src/SimpleServer.cpp</itemPath>
       <itemPath>src/Socket.cpp</itemPath>
+      <itemPath>src/ThreadedServer.cpp</itemPath>
       <itemPath>src/main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -83,6 +85,8 @@
       </item>
       <item path="inc/Socket.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="inc/ThreadedServer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="inc/Types.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/config.h" ex="false" tool="3" flavor2="0">
@@ -98,6 +102,8 @@
       <item path="src/SimpleServer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Socket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ThreadedServer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -154,6 +160,8 @@
       </item>
       <item path="inc/Socket.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="inc/ThreadedServer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="inc/Types.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/config.h" ex="false" tool="3" flavor2="0">
@@ -169,6 +177,8 @@
       <item path="src/SimpleServer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Socket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/ThreadedServer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
