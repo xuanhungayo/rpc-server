@@ -35,8 +35,11 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/src/Handler.o \
+	${OBJECTDIR}/src/Processor.o \
 	${OBJECTDIR}/src/Protocol.o \
 	${OBJECTDIR}/src/ServerSocket.o \
+	${OBJECTDIR}/src/SimpleServer.o \
 	${OBJECTDIR}/src/Socket.o \
 	${OBJECTDIR}/src/main.o
 
@@ -75,6 +78,16 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tcp-server: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tcp-server ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/src/Handler.o: src/Handler.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Iinc -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Handler.o src/Handler.cpp
+
+${OBJECTDIR}/src/Processor.o: src/Processor.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Iinc -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Processor.o src/Processor.cpp
+
 ${OBJECTDIR}/src/Protocol.o: src/Protocol.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
@@ -84,6 +97,11 @@ ${OBJECTDIR}/src/ServerSocket.o: src/ServerSocket.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Iinc -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/ServerSocket.o src/ServerSocket.cpp
+
+${OBJECTDIR}/src/SimpleServer.o: src/SimpleServer.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Iinc -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/SimpleServer.o src/SimpleServer.cpp
 
 ${OBJECTDIR}/src/Socket.o: src/Socket.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -113,6 +131,32 @@ ${TESTDIR}/tests/client.o: tests/client.cpp
 	$(COMPILE.cc) -g -Iinc -I. -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/client.o tests/client.cpp
 
 
+${OBJECTDIR}/src/Handler_nomain.o: ${OBJECTDIR}/src/Handler.o src/Handler.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/Handler.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -Iinc -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Handler_nomain.o src/Handler.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/src/Handler.o ${OBJECTDIR}/src/Handler_nomain.o;\
+	fi
+
+${OBJECTDIR}/src/Processor_nomain.o: ${OBJECTDIR}/src/Processor.o src/Processor.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/Processor.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -Iinc -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Processor_nomain.o src/Processor.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/src/Processor.o ${OBJECTDIR}/src/Processor_nomain.o;\
+	fi
+
 ${OBJECTDIR}/src/Protocol_nomain.o: ${OBJECTDIR}/src/Protocol.o src/Protocol.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/Protocol.o`; \
@@ -137,6 +181,19 @@ ${OBJECTDIR}/src/ServerSocket_nomain.o: ${OBJECTDIR}/src/ServerSocket.o src/Serv
 	    $(COMPILE.cc) -g -Iinc -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/ServerSocket_nomain.o src/ServerSocket.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/src/ServerSocket.o ${OBJECTDIR}/src/ServerSocket_nomain.o;\
+	fi
+
+${OBJECTDIR}/src/SimpleServer_nomain.o: ${OBJECTDIR}/src/SimpleServer.o src/SimpleServer.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/SimpleServer.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -Iinc -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/SimpleServer_nomain.o src/SimpleServer.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/src/SimpleServer.o ${OBJECTDIR}/src/SimpleServer_nomain.o;\
 	fi
 
 ${OBJECTDIR}/src/Socket_nomain.o: ${OBJECTDIR}/src/Socket.o src/Socket.cpp 

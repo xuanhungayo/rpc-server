@@ -12,6 +12,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include "config.h"
 #include "ServerSocket.h"
 
 namespace tcpserver {
@@ -40,9 +41,13 @@ void ServerSocket::listen() {
 	}
 
 	for (addr = addr0; addr != NULL; addr = addr->ai_next) {
-		if ((server_socket_ = socket(addr->ai_family, addr->ai_socktype, addr->ai_protocol)) == -1)
+		if ((server_socket_ = socket(addr->ai_family, addr->ai_socktype, addr->ai_protocol)) == -1) {
+			perror("server: socket");
 			continue;
+		}
+
 		if (bind(server_socket_, addr->ai_addr, addr->ai_addrlen) == -1) {
+			perror("server: bind");
 			close();
 			continue;
 		}
@@ -57,7 +62,7 @@ void ServerSocket::listen() {
 	}
 
 	if (::listen(server_socket_, BACKLOG) == -1) {
-		std::cout << "Error listening!" << std::endl;
+		perror("server: listen");
 		return;
 	}
 
@@ -69,7 +74,19 @@ std::shared_ptr<Socket> ServerSocket::accept() {
 	sockaddr_storage client_addr;
 	socklen_t addr_size = sizeof (client_addr);
 	int new_socket = ::accept(server_socket_, (sockaddr*) & client_addr, &addr_size);
-	if (new_socket == -1) return nullptr;
+
+	if (new_socket == -1) {
+		perror("server: accept");
+		return nullptr;
+	}
+
+	timeval _timeval;
+	_timeval.tv_sec = TIME_OUT;
+	_timeval.tv_usec = 0;
+	if (setsockopt(new_socket, SOL_SOCKET, SO_RCVTIMEO, (const char*) &_timeval, sizeof (timeval)) == -1) {
+		perror("server: setsockopt");
+		return nullptr;
+	}
 
 	char client_ip[INET_ADDRSTRLEN];
 	inet_ntop(client_addr.ss_family,

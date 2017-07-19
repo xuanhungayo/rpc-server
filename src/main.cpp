@@ -7,24 +7,13 @@
 
 #include <iostream>
 
-#include "ServerSocket.h"
-#include "Socket.h"
+#include "SimpleServer.h"
 
-using tcpserver::ServerSocket;
-using tcpserver::Socket;
+using tcpserver::SimpleServer;
 
 int main(int argc, char** argv) {
-	ServerSocket ssocket(3000);
-	ssocket.listen();
-	while (1) {
-		std::shared_ptr<Socket> transporter = ssocket.accept();
-		char welcome[] = "Hi there";
-		transporter->write(welcome, sizeof(welcome));
-		
-		char request[1024];
-		transporter->read(request, 1024);
-		std::cout << "Request from client: " << request	 << std::endl; 
-	}
+	SimpleServer server(3000);
+	server.run();
 	return 0;
 }
 

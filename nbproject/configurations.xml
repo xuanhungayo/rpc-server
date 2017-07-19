@@ -2,13 +2,21 @@
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="inc" displayName="inc" projectFiles="true">
+      <itemPath>inc/Handler.h</itemPath>
+      <itemPath>inc/Processor.h</itemPath>
       <itemPath>inc/Protocol.h</itemPath>
       <itemPath>inc/ServerSocket.h</itemPath>
+      <itemPath>inc/SimpleServer.h</itemPath>
       <itemPath>inc/Socket.h</itemPath>
+      <itemPath>inc/Types.h</itemPath>
+      <itemPath>inc/config.h</itemPath>
     </logicalFolder>
     <logicalFolder name="src" displayName="src" projectFiles="true">
+      <itemPath>src/Handler.cpp</itemPath>
+      <itemPath>src/Processor.cpp</itemPath>
       <itemPath>src/Protocol.cpp</itemPath>
       <itemPath>src/ServerSocket.cpp</itemPath>
+      <itemPath>src/SimpleServer.cpp</itemPath>
       <itemPath>src/Socket.cpp</itemPath>
       <itemPath>src/main.cpp</itemPath>
     </logicalFolder>
@@ -63,15 +71,31 @@
           <output>${TESTDIR}/TestFiles/f1</output>
         </linkerTool>
       </folder>
+      <item path="inc/Handler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/Processor.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="inc/Protocol.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/ServerSocket.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="inc/SimpleServer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="inc/Socket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/Types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/config.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Handler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Processor.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Protocol.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/ServerSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/SimpleServer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Socket.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -118,15 +142,31 @@
           <output>${TESTDIR}/TestFiles/f1</output>
         </linkerTool>
       </folder>
+      <item path="inc/Handler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/Processor.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="inc/Protocol.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/ServerSocket.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="inc/SimpleServer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="inc/Socket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/Types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/config.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Handler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Processor.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Protocol.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/ServerSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/SimpleServer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Socket.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -13,24 +13,31 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include <memory>
 
 #include "Socket.h"
+#include "Protocol.h"
 
 /*
  * Simple C++ Test Suite
  */
 
-using tcpserver::Socket;
+using namespace tcpserver;
 
 int main(int argc, char** argv) {
-	Socket client("localhost", 3000);
-	client.open();
-	for(int i = 1; i <= 10000000; i++);
-	char response[1024];
-	client.read(response, 1024);
-	std::cout << "Server response: " << response << std::endl; 
+	std::shared_ptr<Socket> client(new Socket("localhost", 3000));
+	client->open();
+	Protocol protocol(client);
 	
-	char request[] = "Money";
-	client.write(request, sizeof(request));
+	protocol.writeType(2);
+	protocol.writeI32(1);
+	
+	bool response = 0;
+	protocol.readBool(response);
+	if (response) {
+		std::cout << "Yes yes yes\n";
+	}
+		
+	client->close();
 }
 
