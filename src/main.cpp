@@ -8,8 +8,10 @@
 #include <iostream>
 
 #include "SimpleServer.h"
+#include "ThreadedServer.h"
 
 using tcpserver::SimpleServer;
+using tcpserver::ThreadedServer;
 
 int main(int argc, char** argv) {
 	SimpleServer server(3000);

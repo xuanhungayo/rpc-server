@@ -6,13 +6,6 @@
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/home/cpu10170-local/NetBeansProjects/tcp-server/inc/Socket.h</file>
-            <file>file:/home/cpu10170-local/NetBeansProjects/tcp-server/inc/ServerSocket.h</file>
-            <file>file:/home/cpu10170-local/NetBeansProjects/tcp-server/src/Protocol.cpp</file>
-            <file>file:/home/cpu10170-local/NetBeansProjects/tcp-server/src/ServerSocket.cpp</file>
-            <file>file:/home/cpu10170-local/NetBeansProjects/tcp-server/src/Socket.cpp</file>
-            <file>file:/home/cpu10170-local/NetBeansProjects/tcp-server/inc/Protocol.h</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

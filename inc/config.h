@@ -8,7 +8,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define TIME_OUT 10
+#define TIME_OUT 100
 
 #endif /* CONFIG_H */
 

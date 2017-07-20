@@ -5,6 +5,7 @@
  * Created on July 19, 2017, 5:01 PM
  */
 
+#include <iostream>
 #include <thread>
 #include <vector>
 
@@ -28,12 +29,11 @@ void ThreadedServer::run() {
 	std::shared_ptr<ServerSocket> ssocket(new ServerSocket(port_));
 	ssocket->listen();
 	
-	std::vector<std::thread> threads;
 	while (1) {
 		std::shared_ptr<Socket> trans = ssocket->accept();
-		threads.push_back(std::thread(&ThreadedServer::process, this, trans));
+		std::thread client(&ThreadedServer::process, this, trans);
+		client.detach();
 	}
-	for(auto& _thread: threads) _thread.join();
 }
 
 void ThreadedServer::process(std::shared_ptr<Socket> trans) {
