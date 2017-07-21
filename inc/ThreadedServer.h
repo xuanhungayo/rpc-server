@@ -25,7 +25,7 @@ private:
 	int port_;
 	std::shared_ptr<Handler> handler_;
 	
-	void process(std::shared_ptr<Socket> trans);
+	void process(std::shared_ptr<Socket> socket);
 };
 
 } // namespace tcpserver

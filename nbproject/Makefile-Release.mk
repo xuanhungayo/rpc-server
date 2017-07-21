@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/src/Handler.o \
+	${OBJECTDIR}/src/NonblockingServer.o \
 	${OBJECTDIR}/src/Processor.o \
 	${OBJECTDIR}/src/Protocol.o \
 	${OBJECTDIR}/src/ServerSocket.o \
@@ -83,6 +84,11 @@ ${OBJECTDIR}/src/Handler.o: src/Handler.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -Iinc -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Handler.o src/Handler.cpp
+
+${OBJECTDIR}/src/NonblockingServer.o: src/NonblockingServer.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -Iinc -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/NonblockingServer.o src/NonblockingServer.cpp
 
 ${OBJECTDIR}/src/Processor.o: src/Processor.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -148,6 +154,19 @@ ${OBJECTDIR}/src/Handler_nomain.o: ${OBJECTDIR}/src/Handler.o src/Handler.cpp
 	    $(COMPILE.cc) -O2 -Iinc -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Handler_nomain.o src/Handler.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/src/Handler.o ${OBJECTDIR}/src/Handler_nomain.o;\
+	fi
+
+${OBJECTDIR}/src/NonblockingServer_nomain.o: ${OBJECTDIR}/src/NonblockingServer.o src/NonblockingServer.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/NonblockingServer.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -O2 -Iinc -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/NonblockingServer_nomain.o src/NonblockingServer.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/src/NonblockingServer.o ${OBJECTDIR}/src/NonblockingServer_nomain.o;\
 	fi
 
 ${OBJECTDIR}/src/Processor_nomain.o: ${OBJECTDIR}/src/Processor.o src/Processor.cpp 

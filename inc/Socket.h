@@ -31,6 +31,9 @@ public:
 	void close();
 	// Check if there is an open socket
 	bool isOpen();
+	
+	int getSocket();
+	void setSocket(int socket);
 protected:
 	std::string host_;
 	int port_;

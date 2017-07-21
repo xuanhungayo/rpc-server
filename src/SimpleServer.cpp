@@ -24,9 +24,11 @@ void SimpleServer::run() {
 	std::shared_ptr<Handler> handler(new Handler());
 	
 	while (1) {
-		std::shared_ptr<Protocol> protocol(new Protocol(ssocket->accept()));
+		std::shared_ptr<Socket> socket = ssocket->accept();
+		std::shared_ptr<Protocol> protocol(new Protocol(socket));
 		std::shared_ptr<Processor> processor(new Processor(protocol, handler));
 		while (processor->handleRequest()) {};
+		socket->close();
 	}
 }
 

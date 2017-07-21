@@ -8,7 +8,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define TIME_OUT 100
+#define MAXEVENT 100
+#define EVENT_SIZE 12
+#define TIME_OUT 5
 
 #endif /* CONFIG_H */
 

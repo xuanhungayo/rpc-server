@@ -36,10 +36,11 @@ void ThreadedServer::run() {
 	}
 }
 
-void ThreadedServer::process(std::shared_ptr<Socket> trans) {
-	std::shared_ptr<Protocol> protocol(new Protocol(trans));
+void ThreadedServer::process(std::shared_ptr<Socket> socket) {
+	std::shared_ptr<Protocol> protocol(new Protocol(socket));
 	std::shared_ptr<Processor> processor(new Processor(protocol, handler_));
 	while (processor->handleRequest()) {};
+	socket->close();
 }
 
 } // namespace tcpserver

@@ -18,18 +18,18 @@ Handler::~Handler() {
 }
 
 Value Handler::get(const int32_t key) {
-	std::cout << "GET" << std::endl;
-	return Value(1);
+	std::cout << "GET " << key << std::endl;
+	return Value(key);
 }
 
 bool Handler::set(const int32_t key, const Value& value) {
-	std::cout << "SET" << std::endl;
-	return 1;
+	std::cout << "SET " << key << std::endl;
+	return key % 2;
 }
 
 bool Handler::remove(const int32_t key) {
-	std::cout << "REMOVE" << std::endl;
-	return 1;
+	std::cout << "REMOVE " << key << std::endl;
+	return key % 2;
 }
 
 }

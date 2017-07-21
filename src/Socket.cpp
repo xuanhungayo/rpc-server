@@ -28,7 +28,7 @@ sockfd_(socket) {
 }
 
 Socket::~Socket() {
-	close();
+	//close();
 }
 
 void Socket::open() {
@@ -111,6 +111,14 @@ uint32_t Socket::write(const char* buff, uint32_t len) {
 		byteleft -= byte_sent;
 	}
 	return total;
+}
+
+int Socket::getSocket() {
+	return sockfd_;
+}
+
+void Socket::setSocket(int socket) {
+	sockfd_ = socket;
 }
 
 void* Socket::get_in_addr(sockaddr* sa) {

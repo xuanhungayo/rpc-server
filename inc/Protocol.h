@@ -30,6 +30,7 @@ public:
 	uint32_t writeBool(bool _bool);
 	uint32_t writeI32(int32_t inum);
 	uint32_t writeValue(const Value& value);
+	
 private:
 	std::shared_ptr<Socket> socket_;
 };

@@ -36,31 +36,36 @@ void aClient() {
 	//std::this_thread::sleep_for(std::chrono::duration<int, std::ratio<1>>(rand() % 5));
 	for(int i = 0; i < REQ_PER_CLIENT; i++) {
 		char type = rand()% 3;
+		int key = rand() % 100;
+		
 		protocol.writeType(type);
 		switch (type) {
 		case 0: {
-			protocol.writeI32(1);
+			protocol.writeI32(key);
 			
 			int32_t response;
 			protocol.readI32(response);
-			if (response) std::cout << "GET SUCCESS\n";
+			if (response == key) std::cout << "GET SUCCESS\n";
+			else std::cout << "GET FAIL\n";
 			break;
 		}
 		case 1: {
-			protocol.writeI32(1);
-			protocol.writeI32(1);
+			protocol.writeI32(key);
+			protocol.writeI32(key);
 			
 			bool response;
 			protocol.readBool(response);
-			if (response) std::cout << "SET SUCCESS\n";
+			if (response == key % 2) std::cout << "SET SUCCESS\n";
+			else std::cout << "SET FAIL\n";
 			break;
 		}
 		case 2: {
-			protocol.writeI32(1);
+			protocol.writeI32(key);
 			
 			bool response;
 			protocol.readBool(response);
-			if (response) std::cout << "REMOVE SUCCESS\n";
+			if (response == key % 2) std::cout << "REMOVE SUCCESS\n";
+			else std::cout << "REMOVE FAIL\n";
 			break;
 		}
 		}
@@ -70,6 +75,7 @@ void aClient() {
 }
 
 int main(int argc, char** argv) {
+	srand(time(NULL));
 	std::thread clients[CLIENT_NUM];
 	time_t begin = clock();
 	for (int i = 0; i < CLIENT_NUM; i++) clients[i] = std::thread(aClient);
