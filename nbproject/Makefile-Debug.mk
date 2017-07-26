@@ -35,7 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/src/FramedTransport.o \
 	${OBJECTDIR}/src/Handler.o \
+	${OBJECTDIR}/src/MemoryBuffer.o \
 	${OBJECTDIR}/src/NonblockingServer.o \
 	${OBJECTDIR}/src/Processor.o \
 	${OBJECTDIR}/src/Protocol.o \
@@ -80,10 +82,20 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tcp-server: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/tcp-server ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/src/FramedTransport.o: src/FramedTransport.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Iinc -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/FramedTransport.o src/FramedTransport.cpp
+
 ${OBJECTDIR}/src/Handler.o: src/Handler.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Iinc -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Handler.o src/Handler.cpp
+
+${OBJECTDIR}/src/MemoryBuffer.o: src/MemoryBuffer.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Iinc -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/MemoryBuffer.o src/MemoryBuffer.cpp
 
 ${OBJECTDIR}/src/NonblockingServer.o: src/NonblockingServer.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -143,6 +155,19 @@ ${TESTDIR}/tests/client.o: tests/client.cpp
 	$(COMPILE.cc) -g -Iinc -I. -std=c++11 -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/client.o tests/client.cpp
 
 
+${OBJECTDIR}/src/FramedTransport_nomain.o: ${OBJECTDIR}/src/FramedTransport.o src/FramedTransport.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/FramedTransport.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -Iinc -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/FramedTransport_nomain.o src/FramedTransport.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/src/FramedTransport.o ${OBJECTDIR}/src/FramedTransport_nomain.o;\
+	fi
+
 ${OBJECTDIR}/src/Handler_nomain.o: ${OBJECTDIR}/src/Handler.o src/Handler.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/Handler.o`; \
@@ -154,6 +179,19 @@ ${OBJECTDIR}/src/Handler_nomain.o: ${OBJECTDIR}/src/Handler.o src/Handler.cpp
 	    $(COMPILE.cc) -g -Iinc -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Handler_nomain.o src/Handler.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/src/Handler.o ${OBJECTDIR}/src/Handler_nomain.o;\
+	fi
+
+${OBJECTDIR}/src/MemoryBuffer_nomain.o: ${OBJECTDIR}/src/MemoryBuffer.o src/MemoryBuffer.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	@NMOUTPUT=`${NM} ${OBJECTDIR}/src/MemoryBuffer.o`; \
+	if (echo "$$NMOUTPUT" | ${GREP} '|main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T main$$') || \
+	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
+	then  \
+	    ${RM} "$@.d";\
+	    $(COMPILE.cc) -g -Iinc -std=c++11 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/MemoryBuffer_nomain.o src/MemoryBuffer.cpp;\
+	else  \
+	    ${CP} ${OBJECTDIR}/src/MemoryBuffer.o ${OBJECTDIR}/src/MemoryBuffer_nomain.o;\
 	fi
 
 ${OBJECTDIR}/src/NonblockingServer_nomain.o: ${OBJECTDIR}/src/NonblockingServer.o src/NonblockingServer.cpp 

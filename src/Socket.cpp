@@ -20,7 +20,8 @@ namespace tcpserver {
 Socket::Socket(const std::string& host, int port) :
 host_(host),
 port_(port),
-sockfd_(-1) {
+sockfd_(-1),
+time_out_(DEFAULT_TIME_OUT) {
 }
 
 Socket::Socket(const int socket) :
@@ -28,7 +29,7 @@ sockfd_(socket) {
 }
 
 Socket::~Socket() {
-	//close();
+	close();
 }
 
 void Socket::open() {
@@ -89,28 +90,52 @@ bool Socket::isOpen() {
 	return sockfd_ != -1;
 }
 
+void Socket::setTimeOut(int time_out) {
+	time_out_ = time_out;
+}
+
 uint32_t Socket::read(char* buff, uint32_t len) {
 	int receive = recv(sockfd_, buff, len, 0);
 	if (receive == -1) {
 		perror("recv");
 		return 0;
-	} else {
-		return receive;
 	}
+	return receive;
+}
+
+bool Socket::readAll(char* buff, uint32_t len) {
+	int total = 0;
+	int byteleft = len;
+	while (total < len) {
+		int byte_read = recv(sockfd_, buff + total, byteleft, 0);
+		if (byte_read == -1) perror("read");
+		if (byte_read <= 0) break;
+		total += byte_read;
+		byteleft -= byte_read;
+	}
+	return total == len;
 }
 
 uint32_t Socket::write(const char* buff, uint32_t len) {
+	int sent = send(sockfd_, buff, len, 0);
+	if (sent <= 0) {
+		perror("write");
+		return 0;
+	}
+	return sent;
+}
+
+bool Socket::writeAll(const char* buff, uint32_t len) {
 	int total = 0;
 	int byteleft = len;
 	while (total < len) {
 		int byte_sent = send(sockfd_, buff + total, byteleft, 0);
 		if (byte_sent == -1) perror("send");
-		if (byte_sent <= 0)
-			break;
+		if (byte_sent <= 0) break;
 		total += byte_sent;
 		byteleft -= byte_sent;
 	}
-	return total;
+	return total == len;
 }
 
 int Socket::getSocket() {

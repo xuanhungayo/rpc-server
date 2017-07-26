@@ -43,7 +43,7 @@ void NonblockingServer::addEvent(std::shared_ptr<Socket> socket) {
 }
 
 void NonblockingServer::IOThread() {
-	epoll_event* events = (epoll_event*) calloc(MAXEVENT, EVENT_SIZE);
+	epoll_event* events = (epoll_event*) calloc(MAX_EVENT, EVENT_SIZE);
 	int event_num;
 	std::shared_ptr<Socket> socket(new Socket(0));
 	std::shared_ptr<Handler> handler(new Handler());
@@ -51,7 +51,7 @@ void NonblockingServer::IOThread() {
 	Processor processor(protocol, handler);
 	
 	while (1) {
-		if ( (event_num = epoll_wait(epoll_fd_, events, MAXEVENT, TIME_OUT)) == -1) {
+		if ( (event_num = epoll_wait(epoll_fd_, events, MAX_EVENT, TIME_OUT)) == -1) {
 			perror("epoll wait");
 			continue;
 		}

@@ -2,7 +2,9 @@
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="inc" displayName="inc" projectFiles="true">
+      <itemPath>inc/FramedTransport.h</itemPath>
       <itemPath>inc/Handler.h</itemPath>
+      <itemPath>inc/MemoryBuffer.h</itemPath>
       <itemPath>inc/NonblockingServer.h</itemPath>
       <itemPath>inc/Processor.h</itemPath>
       <itemPath>inc/Protocol.h</itemPath>
@@ -14,7 +16,9 @@
       <itemPath>inc/config.h</itemPath>
     </logicalFolder>
     <logicalFolder name="src" displayName="src" projectFiles="true">
+      <itemPath>src/FramedTransport.cpp</itemPath>
       <itemPath>src/Handler.cpp</itemPath>
+      <itemPath>src/MemoryBuffer.cpp</itemPath>
       <itemPath>src/NonblockingServer.cpp</itemPath>
       <itemPath>src/Processor.cpp</itemPath>
       <itemPath>src/Protocol.cpp</itemPath>
@@ -80,7 +84,11 @@
           <output>${TESTDIR}/TestFiles/f1</output>
         </linkerTool>
       </folder>
+      <item path="inc/FramedTransport.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="inc/Handler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/MemoryBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/NonblockingServer.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -100,7 +108,11 @@
       </item>
       <item path="inc/config.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/FramedTransport.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="src/Handler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MemoryBuffer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/NonblockingServer.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -159,7 +171,11 @@
           <output>${TESTDIR}/TestFiles/f1</output>
         </linkerTool>
       </folder>
+      <item path="inc/FramedTransport.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="inc/Handler.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/MemoryBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/NonblockingServer.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -179,7 +195,11 @@
       </item>
       <item path="inc/config.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/FramedTransport.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="src/Handler.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/MemoryBuffer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/NonblockingServer.cpp" ex="false" tool="1" flavor2="0">
       </item>

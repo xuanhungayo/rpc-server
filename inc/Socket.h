@@ -16,28 +16,30 @@ namespace tcpserver {
 
 class Socket {
 public:
-	// Constructor
+	static const int DEFAULT_TIME_OUT = 5;
+	
 	Socket(const std::string& host, int port);
 	Socket(const int socket);
 	virtual ~Socket();
 	
-	// Read from the socket
 	uint32_t read(char* buff, uint32_t len);
-	// Write to the socket
+	bool readAll(char* buff, uint32_t len);
 	uint32_t write(const char* buff, uint32_t len);
-	// Open a new socket
+	bool writeAll(const char* buff, uint32_t len);
+	
 	void open();
-	// Close the socket
 	void close();
-	// Check if there is an open socket
 	bool isOpen();
 	
 	int getSocket();
 	void setSocket(int socket);
-protected:
+	
+	void setTimeOut(int time_out);
+private:
 	std::string host_;
 	int port_;
 	int sockfd_;
+	int time_out_;
 	
 	// Get sockaddr, IPv4 or IPv6
 	void* get_in_addr(sockaddr* sa);

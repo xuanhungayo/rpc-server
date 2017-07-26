@@ -8,9 +8,11 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define MAXEVENT 100
+// Socket
 #define EVENT_SIZE 12
 #define TIME_OUT 5
+
+#define MAX_EVENT 100
 
 #endif /* CONFIG_H */
 
