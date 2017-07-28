@@ -29,7 +29,7 @@ sockfd_(socket) {
 }
 
 Socket::~Socket() {
-	close();
+	//close();
 }
 
 void Socket::open() {

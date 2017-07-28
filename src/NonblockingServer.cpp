@@ -14,62 +14,58 @@
 
 namespace tcpserver {
 
-NonblockingServer::NonblockingServer(int port):
-port_(port),
+// TODO
+
+IOThread::IOThread(NonblockingServer* server):
+server_(server),
 epoll_fd_(epoll_create(1)) {
 }
 
-NonblockingServer::~NonblockingServer() {
+IOThread::~IOThread(){
 }
 
-void NonblockingServer::run() {
-	std::shared_ptr<ServerSocket> ssocket(new ServerSocket(port_));
-	std::thread io_thread(&NonblockingServer::IOThread, this);
-	io_thread.detach();
-	ssocket->listen();
-	while (1) {
-		std::shared_ptr<Socket> socket = ssocket->accept();
-		addEvent(socket);
-	}
+void IOThread::run() {
+//	std::shared_ptr<ServerSocket> ssocket(new ServerSocket(server_->port_));
+//	ssocket->listen();
+//	registerEvent(ssocket->getServerSocket());
+//
+//
+//	epoll_event* events = (epoll_event*) calloc(MAX_EVENT, EVENT_SIZE);	
+//	//  Main event loop
+//	while (1) {
+//		int event_num = epoll_wait(epoll_fd_, events, MAX_EVENT, TIME_OUT);
+//		if (event_num == -1) {
+//			perror("epoll wait");
+//			continue;
+//		}
+//		
+//		for(int i = 0; i < event_num; i++) {
+//			// Close socket if any error occurs
+//			if (events[i].events & EPOLLERR || events[i].events & EPOLLUP) {
+//				std::cout << "Error on fd: " << events[i].data.fd << "\n";
+//				close(events[i].data.fd);
+//				continue;
+//			}
+//			
+//			// Listener event
+//			if (events[i].data.fd == ssocket->getServerSocket()) {
+//				std::shared_ptr<Socket> socket = ssocket->accept();
+//				registerEvent(ssocket)
+//			}
+//		}
+//	}
 }
 
-void NonblockingServer::addEvent(std::shared_ptr<Socket> socket) {
-	epoll_event event;
-	event.events = EPOLLIN;
-	event.data.fd = socket->getSocket();
-	if (epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, event.data.fd, &event) == -1) {
-		perror("Add event");
-	};
+
+NonblockingServer::NonblockingServer(int port):
+port_(port),
+io_thread_(this) {
 }
 
-void NonblockingServer::IOThread() {
-	epoll_event* events = (epoll_event*) calloc(MAX_EVENT, EVENT_SIZE);
-	int event_num;
-	std::shared_ptr<Socket> socket(new Socket(0));
-	std::shared_ptr<Handler> handler(new Handler());
-	std::shared_ptr<Protocol> protocol(new Protocol(socket));
-	Processor processor(protocol, handler);
-	
-	while (1) {
-		if ( (event_num = epoll_wait(epoll_fd_, events, MAX_EVENT, TIME_OUT)) == -1) {
-			perror("epoll wait");
-			continue;
-		}
-		for(int i = 0; i < event_num; i++) {
-			if (events[i].events & EPOLLERR && events[i].events & EPOLLHUP) {
-				std::cout << "Error on fd: " << events[i].data.fd << "\n";
-				close(events[i].data.fd);
-			}
-	
-			else {
-				socket->setSocket(events[i].data.fd);
-				if (!processor.handleRequest()) {
-					close(events[i].data.fd);
-				}
-			}
-		}
-	}
+NonblockingServer::~NonblockingServer(){
 }
+
+
 
 } // namespace tcpserver
 

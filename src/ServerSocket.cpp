@@ -97,6 +97,11 @@ std::shared_ptr<Socket> ServerSocket::accept() {
 	return std::make_shared<Socket>(new_socket);
 }
 
+int ServerSocket::getServerSocket() {
+	return server_socket_;
+}
+
+
 void ServerSocket::close() {
 	::close(server_socket_);
 	server_socket_ = -1;

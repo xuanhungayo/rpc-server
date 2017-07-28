@@ -16,7 +16,7 @@ using tcpserver::ThreadedServer;
 using tcpserver::NonblockingServer;
 
 int main(int argc, char** argv) {
-	NonblockingServer server(3000);
+	ThreadedServer server(3000);
 	server.run();
 	return 0;
 }

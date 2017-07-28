@@ -10,6 +10,7 @@
 
 #include <cstdlib>
 #include <cstdint>
+#include <mutex>
 
 namespace tcpserver {
 
@@ -23,12 +24,17 @@ public:
 	virtual ~MemoryBuffer();
 	
 	uint32_t availableRead();
+	uint32_t availableWrite();
 	
 	bool read(char* buf, uint32_t len);
 	bool write(const char* buf, uint32_t len);
+
 private:
 	void init();
 	bool ensureCanWrite(uint32_t len);
+	void resetBuffer();
+	
+	std::mutex mtx;
 	
 	uint32_t buf_size_;
 	char* buf_begin_;

@@ -14,6 +14,7 @@
       <itemPath>inc/ThreadedServer.h</itemPath>
       <itemPath>inc/Types.h</itemPath>
       <itemPath>inc/config.h</itemPath>
+      <itemPath>inc/helpers.h</itemPath>
     </logicalFolder>
     <logicalFolder name="src" displayName="src" projectFiles="true">
       <itemPath>src/FramedTransport.cpp</itemPath>
@@ -108,6 +109,8 @@
       </item>
       <item path="inc/config.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="inc/helpers.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/FramedTransport.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Handler.cpp" ex="false" tool="1" flavor2="0">
@@ -194,6 +197,8 @@
       <item path="inc/Types.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="inc/config.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="inc/helpers.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/FramedTransport.cpp" ex="false" tool="1" flavor2="0">
       </item>

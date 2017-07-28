@@ -22,6 +22,7 @@ public:
 	void listen();
 	std::shared_ptr<Socket> accept();
 	void close();
+	int getServerSocket();
 private:
 	int port_;
 	int server_socket_;

@@ -16,22 +16,50 @@
 #include "Handler.h"
 #include "Protocol.h"
 #include "Processor.h"
+#include "MemoryBuffer.h"
+#include "FramedTransport.h"
 #include "config.h"
 
 namespace tcpserver {
 
-class NonblockingServer {
+// TODO
+class NonblockingServer;
+
+class IOThread {
 public:
-	NonblockingServer(int port);
-	virtual ~NonblockingServer();
+	IOThread(NonblockingServer* server);
+	virtual ~IOThread();
 	
 	void run();
 private:
-	int port_;
 	int epoll_fd_;
+	NonblockingServer* server_;
 	
-	void addEvent(std::shared_ptr<Socket> socket);
-	void IOThread();
+	void registerEvent(int socket);
+};
+
+class WorkersManager {
+	
+};
+
+class NonblockingServer {
+public:
+	
+	
+	NonblockingServer(int port);
+	virtual ~NonblockingServer();
+
+	void run();
+private:
+	friend class IOThread;
+	friend class WorkersManager;
+	
+	int port_;
+	
+	IOThread io_thread_;
+	
+	MemoryBuffer in_buffer_;
+	MemoryBuffer out_buffer_;
 };
 
 } // namespace tcpserver
